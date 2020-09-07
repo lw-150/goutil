@@ -1,4 +1,4 @@
-module goutil
+module github.com/lw-150/goutil
 
 go 1.15
 
