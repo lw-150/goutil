@@ -12,7 +12,7 @@ import (
 var Logger *zap.Logger
 var Log *zap.SugaredLogger
 
-func InitZapLog(fileName string, maxSize int, maxBackups int, maxAge int, serviceName string) (*zap.Logger, *zap.SugaredLogger) {
+func InitZapLog(fileName string, maxSize int, maxBackups int, maxAge int, serviceName string) {
 	hook := lumberjack.Logger{
 		//Filename:   "./logs/spikeProxy1.log", // 日志文件路径
 		//MaxSize:    128,                      // 每个日志文件保存的最大尺寸 单位：M
@@ -66,11 +66,18 @@ func InitZapLog(fileName string, maxSize int, maxBackups int, maxAge int, servic
 	filed := zap.Fields(zap.String("serviceName", serviceName))
 	Logger = zap.New(core, caller, development, filed)
 	Log = Logger.Sugar()
-	return Logger, Log
 }
 
 func formatEncodeTime(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 	enc.AppendString(fmt.Sprintf("%d%02d%02d_%02d%02d%02d", t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second()))
+}
+
+func GetLog() *zap.SugaredLogger {
+	return Log
+}
+
+func GetLogger() *zap.Logger {
+	return Logger
 }
 
 //func FormatLog(args []interface{}) *zap.SugaredLogger {
