@@ -1,0 +1,49 @@
+app_name: shengbo
+
+mysql:
+  db_connection: mysql
+  db_host: 127.0.0.1
+  db_port: 3306
+  db_database: shengbo_db
+  db_charset: utf8mb4
+  db_username: root
+  db_password: 123456
+
+log:
+  file_name: ./logs/spikeProxy1.log
+  max_size: 128
+  max_backups: 30
+  max_age: 7
+  compress: true
+
+redis:
+  host: 127.0.0.1
+  password: null
+  port: 6379
+
+json_web_token:
+  secret_key: AbswQHMr1Z5BEqMBnsM4
+
+json_code_number:
+  failed: 0
+  success: 1
+  #  10000x     授权/服务错误
+  #  20000x     参数错误
+  token_error: 100001
+  parameter_error: 200001
+  nothing: 200002
+
+json_code_description:
+  failed: 失败
+  success: 成功
+  token_error: token错误
+  parameter_error: 参数错误
+  nothing: 无数据
+
+#  配置文件不必同SYSConfig结构对等
+json_code_description2:
+  failed: 失败
+  success: 成功
+  token_error: token错误
+  parameter_error: 参数错误
+  nothing: 无数据
