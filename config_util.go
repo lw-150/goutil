@@ -59,21 +59,21 @@ type sysConfig struct {
 	JsonCodeDescription jsonCodeDescriptionConfig `yaml:"json_code_description"`
 }
 
-var config *sysConfig
+var Config *sysConfig
 var once sync.Once
 
 func GetConfigInstance(path string) *sysConfig {
 	once.Do(func() {
-		config = &sysConfig{}
+		Config = &sysConfig{}
 		yamlFile, err := ioutil.ReadFile(path)
 		//fmt.Println("yamlFile:", yamlFile)
 		if err != nil {
 			fmt.Printf("yamlFile.Get err #%v ", err)
 		}
-		err = yaml.Unmarshal(yamlFile, config)
+		err = yaml.Unmarshal(yamlFile, Config)
 		if err != nil {
 			fmt.Printf("Unmarshal: %v", err)
 		}
 	})
-	return config
+	return Config
 }

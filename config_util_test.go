@@ -6,6 +6,6 @@ import (
 )
 
 func TestGetConfigInstance(t *testing.T) {
-	c := GetConfigInstance("./config/dev.yaml")
-	fmt.Println(c.Mysql.Password)
+	GetConfigInstance("./config/dev.yaml")
+	fmt.Println(Config.Mysql.Password)
 }
