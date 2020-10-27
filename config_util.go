@@ -8,11 +8,7 @@ import (
 	_ "sync"
 )
 
-type ConfigUtil interface {
-	ReadYamlConfig(path string) *SYSConfig
-}
-
-type MysqlConfig struct {
+type mysqlConfig struct {
 	Connection string `yaml:"db_connection"`
 	Host       string `yaml:"db_host"`
 	Port       string `yaml:"db_port"`
@@ -21,23 +17,23 @@ type MysqlConfig struct {
 	UserName   string `yaml:"db_username"`
 	Password   string `yaml:"db_password"`
 }
-type LogConfig struct {
+type logConfig struct {
 	FileName   string `yaml:"file_name"`
 	MaxSize    int    `yaml:"max_size"`
 	MaxBackups int    `yaml:"max_backups"`
 	MaxAge     int    `yaml:"max_age"`
 	Compress   bool   `yaml:"compress"`
 }
-type RedisConfig struct {
+type redisConfig struct {
 	Host     string `yaml:"host"`
 	Password string `yaml:"password"`
 	Port     string `yaml:"port"`
 }
-type JsonWebTokenConfig struct {
+type jsonWebTokenConfig struct {
 	SecretKey string `yaml:"secret_key"`
 }
 
-type JsonCodeNumberConfig struct {
+type jsonCodeNumberConfig struct {
 	Failed         int `yaml:"failed"`
 	Success        int `yaml:"success"`
 	TokenError     int `yaml:"token_error"`
@@ -45,7 +41,7 @@ type JsonCodeNumberConfig struct {
 	Nothing        int `yaml:"nothing"`
 }
 
-type JsonCodeDescriptionConfig struct {
+type jsonCodeDescriptionConfig struct {
 	Failed         string `yaml:"failed"`
 	Success        string `yaml:"success"`
 	TokenError     string `yaml:"token_error"`
@@ -53,55 +49,31 @@ type JsonCodeDescriptionConfig struct {
 	Nothing        string `yaml:"nothing"`
 }
 
-type SYSConfig struct {
+type sysConfig struct {
 	AppName             string                    `yaml:"app_name"`
-	Mysql               MysqlConfig               `yaml:"mysql"`
-	Log                 LogConfig                 `yaml:"log"`
-	Redis               RedisConfig               `yaml:"redis"`
-	JsonWebToken        JsonWebTokenConfig        `yaml:"json_web_token"`
-	JsonCodeNumber      JsonCodeNumberConfig      `yaml:"json_code_number"`
-	JsonCodeDescription JsonCodeDescriptionConfig `yaml:"json_code_description"`
+	Mysql               mysqlConfig               `yaml:"mysql"`
+	Log                 logConfig                 `yaml:"log"`
+	Redis               redisConfig               `yaml:"redis"`
+	JsonWebToken        jsonWebTokenConfig        `yaml:"json_web_token"`
+	JsonCodeNumber      jsonCodeNumberConfig      `yaml:"json_code_number"`
+	JsonCodeDescription jsonCodeDescriptionConfig `yaml:"json_code_description"`
 }
 
-type configUtil struct {
-}
-
-func NewYamlUtil() ConfigUtil {
-	return &configUtil{}
-}
-
-var Config *SYSConfig
+var config *sysConfig
 var once sync.Once
 
-func GetConfigInstance(path string) *SYSConfig {
+func GetConfigInstance(path string) *sysConfig {
 	once.Do(func() {
-		Config = &SYSConfig{}
+		config = &sysConfig{}
 		yamlFile, err := ioutil.ReadFile(path)
 		//fmt.Println("yamlFile:", yamlFile)
 		if err != nil {
 			fmt.Printf("yamlFile.Get err #%v ", err)
 		}
-		err = yaml.Unmarshal(yamlFile, Config)
+		err = yaml.Unmarshal(yamlFile, config)
 		if err != nil {
 			fmt.Printf("Unmarshal: %v", err)
 		}
 	})
-	return Config
-}
-
-func (u *configUtil) ReadYamlConfig(path string) *SYSConfig {
-	Config = &SYSConfig{}
-	yamlFile, err := ioutil.ReadFile(path)
-	//fmt.Println("yamlFile:", yamlFile)
-	if err != nil {
-		//fmt.Printf("yamlFile.Get err #%v ", err)
-		return nil
-	}
-	err = yaml.Unmarshal(yamlFile, Config)
-	if err != nil {
-		//fmt.Printf("Unmarshal: %v", err)
-		return nil
-	}
-	//fmt.Println("conf", conf)
-	return Config
+	return config
 }

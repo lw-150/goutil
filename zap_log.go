@@ -72,13 +72,13 @@ func formatEncodeTime(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 	enc.AppendString(fmt.Sprintf("%d%02d%02d_%02d%02d%02d", t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second()))
 }
 
-func GetLog() *zap.SugaredLogger {
-	return Log
-}
-
-func GetLogger() *zap.Logger {
-	return Logger
-}
+//func GetLog() *zap.SugaredLogger {
+//	return Log
+//}
+//
+//func GetLogger() *zap.Logger {
+//	return Logger
+//}
 
 //func FormatLog(args []interface{}) *zap.SugaredLogger {
 //	return Log.With(toJsonData(args)).Sugar()

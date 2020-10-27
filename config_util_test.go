@@ -6,6 +6,6 @@ import (
 )
 
 func TestGetConfigInstance(t *testing.T) {
-	c := NewYamlUtil().ReadYamlConfig("./config/dev.yaml")
-	fmt.Println(c.JsonCodeDescription)
+	c := GetConfigInstance("./config/dev.yaml")
+	fmt.Println(c.Mysql.Password)
 }
